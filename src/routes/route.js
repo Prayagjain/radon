@@ -1,40 +1,43 @@
 const express = require('express');
-const externalModule = require('.././logger/logger')
-const externalModule2 = require('.././util/helper')
-const externalModule3 = require('.././validator/formatter')
-const lodash = require("lodash")
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    externalModule.log()
-    externalModule2.date()
-    externalModule2.month()
-    externalModule2.info()
-    externalModule3.trim()
-    externalModule3.lower()
-    externalModule3.upper()
-
-    res.send('My first ever api!')
-});
-router.get('/hello', function (req, res) {
-  let arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-   console.log(lodash.chunk(arr, 3))
-
-  let arr1 = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-  let x = lodash.tail(arr1)
-      console.log(x)
-
- let arr2 = lodash.union([15, 7, 6], [9, 15, 6], [7, 9, 13], [16, 4, 63], [1, 63, 13]);
-      console.log(arr2)
-
-let arr3 = [["name", "prayag"], ["age",23], ["state","M.P"], ["Hobbie","Singing"]]
-  let obj = lodash.fromPairs(arr3)
-  console.log(obj)
+router.get('/miss-num', function (req, res) {
+    
+    let arr= [1,2,3,5,6,7]
+ 
+    let total = 0;
+    for (var i in arr) {
+        total += arr[i]; // --> total = total + arr[i]
+    }
   
-  res.send('My api!')
-});
+    let lastDigit= arr.pop()
+    let consecutiveSum= lastDigit * (lastDigit+1) / 2
+    let missingNumber= consecutiveSum - total
+  
+    res.send(  { data: missingNumber  }  );
 
+    
+ });
+
+ router.get('/miss-num2', function (req, res){
+    
+    let arr2 = [33, 34, 35, 37, 38]
+    let len2 = arr2.length
+  
+    let total2 = 0;
+    for (var i in arr2) {
+        total2 += arr2[i]; // --> total2 = total2 + arr2[i]
+    }
+  
+    let firstDigit2= arr2[0]
+    let lastDigit2= arr2.pop()
+    let consecutiveSum2= (len2 + 1) * (firstDigit2 + lastDigit2 ) / 2
+    let missingNumber2= consecutiveSum2 - total2
+   
+    res.send(  { data: missingNumber2  }  );
+
+ });
 
 module.exports = router;
 // adding this comment for no reason
