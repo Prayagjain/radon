@@ -1,40 +1,64 @@
 const express = require('express');
-const externalModule = require('.././logger/logger')
-const externalModule2 = require('.././util/helper')
-const externalModule3 = require('.././validator/formatter')
-const lodash = require("lodash")
+
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    externalModule.log()
-    externalModule2.date()
-    externalModule2.month()
-    externalModule2.info()
-    externalModule3.trim()
-    externalModule3.lower()
-    externalModule3.upper()
+router.get('/Get/movies', function (req, res) {
+    let movieList = ["spiderman", "batman", "ironman", "thor", "inception", "bohemian rapsody"]
 
-    res.send('My first ever api!')
+    res.send(movieList)
 });
-router.get('/hello', function (req, res) {
-  let arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-   console.log(lodash.chunk(arr, 3))
+router.get('/Get/movie/:indexNumber', function (req, res) {
+  let movieList = ["spiderman", "batman", "ironman", "thor", "inception", "bohemian rapsody"]
+  if(req.params.indexNumber >= 0 && req.params.indexNumber < movieList.length){
+  res.send(movieList[req.params.indexNumber])
+  }else{ res.send("No movie available")
+}
+});
+router.get('/Get/films', function (req, res) {
+let filmArr = [{
+              "id": 1,
+              "name": "dhoom"
+            }, {
+              "id": 2,
+               "name": "krish"
+            }, {
+              "id": 3,
+              "name": "3 idiots"
+            }, {
+              "id": 4,
+              "name": "pk"
+            }, {
+              "id": 5,
+              "name": "bahubali"
+            }]
+      res.send(filmArr)
+})
 
-  let arr1 = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-  let x = lodash.tail(arr1)
-      console.log(x)
-
- let arr2 = lodash.union([15, 7, 6], [9, 15, 6], [7, 9, 13], [16, 4, 63], [1, 63, 13]);
-      console.log(arr2)
-
-let arr3 = [["name", "prayag"], ["age",23], ["state","M.P"], ["Hobbie","Singing"]]
-  let obj = lodash.fromPairs(arr3)
-  console.log(obj)
+router.get('/Get/films/:filmid', function (req, res) {
+  let filmArr = [{
+    "id": 1,
+    "name": "dhoom"
+  }, {
+    "id": 2,
+     "name": "krish"
+  }, {
+    "id": 3,
+    "name": "3 idiots"
+  }, {
+    "id": 4,
+    "name": "pk"
+  }, {
+    "id": 5,
+    "name": "bahubali"
+  }]
+    if(req.params.filmid >= 1 && req.params.filmid <= filmArr.length){
+      res.send(filmArr[req.params.filmid - 1].name) 
+    }else {
+      res.send("No such movie")
+    }
   
-  res.send('My api!')
-});
-
+})
 
 module.exports = router;
 // adding this comment for no reason
