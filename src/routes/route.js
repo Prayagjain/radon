@@ -7,8 +7,8 @@ router.get("/bookCollection", function (req, res) {
     res.send("This is Book library")
 })
 
-router.post("/createBook", UserController.createUser  )
+router.post("/createBook", UserController.createBook  )
 
-router.get("/getBookData", UserController.getUsersData)
+router.get("/getBookData", UserController.getBookData)
 
 module.exports = router;
