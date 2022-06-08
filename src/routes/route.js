@@ -9,16 +9,17 @@ router.get("/bookCollection", function (req, res) {
 
 router.post("/createBook", bookController.createBook)
 
+router.post("/createAuther", bookController.createAuthor)
+
 router.get("/bookList", bookController.bookList)
 
-router.post("/getBooksInYear", bookController.getBooksInYear)
-
-router.post("/getParticularBooks", bookController.getParticularBooks)
+router.get("/getBooksInYear", bookController.getBooksInYear)
 
 router.get("/getXINRBooks", bookController.getXINRBooks)
 
-router.get("/getRandomBooks", bookController.getRandomBooks)
+router.get("/books-by-authorid/:authorId", bookController.bookByAuthorId)
 
+router.get("/findAuthor", bookController.findAuthor)
 
 
 module.exports = router;
