@@ -1,11 +1,32 @@
 const { count } = require("console")
-const BookModel = require("../models/bookModel")
+const purchaseModel = require("../models/purchaseModel")
+const productModel = require("../models/productModel")
+const userModel = require("../models/userModel")
+const { findByIdAndUpdate } = require("../models/productModel")
 
-const createBook= async function (req, res) {
-    let data= req.body
+const createPurchase =async function (req, res) {
+    let purchase = req.body
+    let header = req.headers.isfreeappuser
 
-    let savedData= await BookModel.create(data)
-    res.send({msg: savedData})
+    if (header == "true"){
+        purchase.amount = 0
+        purchase.isFreeAppUser = true
+        let purchaseCreated = await purchaseModel.create(purchase)
+        res.send({purchase: purchaseCreated})
+    }else if (header == "false"){
+        let price = await productModel.findById(purchase.productId).select({price:1, _id:0})
+        let balance = await userModel.findById(purchase.userId).select({balance:1, _id:0})
+
+       if(price.price > balance.balance){
+        res.send("You have insufficient Balance")
+       }else if(price.price < balance.balance){
+        let update = await userModel.findByIdAndUpdate(purchase.userId,{balance: balance.balance-price.price},{new: true})
+        purchase.amount = price.price
+        purchase.isFreeAppUser = false
+        let purchaseCreated = await purchaseModel.create(purchase)
+        res.send({msg:purchaseCreated, update })
+       }
+    }
 }
 
 
@@ -72,7 +93,7 @@ const totalSalesPerAuthor = async function (req, res) {
 
 
 
-module.exports.createBook = createBook
+module.exports.createPurchase = createPurchase
 module.exports.getBooksData = getBooksData
 module.exports.updateBooks = updateBooks
 module.exports.deleteBooks = deleteBooks
