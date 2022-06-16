@@ -18,6 +18,11 @@ const mid1=async function ( req, res, next) {
   let decodedToken = jwt.verify(token, "functionup-radon");
   if (!decodedToken)
     {return res.send({ status: false, msg: "token is invalid" });}
+
+    // authorization => Only allowed modification in logged user data 
+    let userToBeModified = req.params.userId
+    let userLoggedIn = decodedToken.userId
+    if(userToBeModified != userLoggedIn) return res.send({status: false, msg: 'User logged is not allowed to modify the requested users data'})
     next()
 }
 const mid2=async function ( req, res, next) {
