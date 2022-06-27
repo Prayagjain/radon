@@ -72,7 +72,7 @@ const getBlogs = async function (req, res) {
 
 const updatedBlogs = async function(req , res){
     try{
-        let {title , body , tags , subcategory} = req.body
+        let {title , body , tags , subcategory, isPublished} = req.body
         let blogId = req.params.blogId
     
         let blog = await blogModel.findById(blogId);
@@ -101,9 +101,17 @@ const updatedBlogs = async function(req , res){
              else{ blog.subcategory.push(subcategory)}
                 
             }
+            if(isPublished === true || isPublished === false){
+           if( blog.isPublished === false && isPublished === true){
             blog.isPublished = true
             let date = new Date();
             blog.publishedAt = date
+        }
+        else if( blog.isPublished == true && isPublished == false){
+            blog.isPublished = false
+            blog.publishedAt = null
+        }else{return res.status(400).send({msg: "Already Unpublished or Published"})}
+    }
             blog.save()
           return  res.status(200).send({status: true , data: blog})
         }
@@ -151,19 +159,15 @@ const deleteBlogByQuery = async function(req , res){
     try{
     let obj = req.findObj
     let decodedToken = req.token
-
+     obj.isDeleted = false
+     obj.isPublished = false
     obj.authorId = decodedToken.authorId
     let date = new Date();
 
-    let blogs = await blogModel.find(obj)
-        if(blogs.length > 0){
             let updatedBlogs = await blogModel.updateMany(obj,{$set: {isDeleted : true, deletedAt:date}})
-          return  res.status(200).send({status : true})
+            if(updatedBlogs.modifiedCount == 0){return res.status(400).send({status: false,msg:"blog is already deleted or published"})}
+         else {return  res.status(200).send({status : true})}
         }
-        else{
-         return   res.status(404).send({status : false , msg: "no such blog available"})
-        }
-    }
     catch(err){
       return  res.status(500).send({msg : err.message})
     }
