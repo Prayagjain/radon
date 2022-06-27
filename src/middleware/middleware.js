@@ -25,6 +25,7 @@ const mid2 = async function (req, res, next) {
         let decodedToken = req.token
 
         let blogId = req.params.blogId
+        if(!blogId){return res.status(400).send({msg:"please enter BlogId"})}
         let authorIdObject = await blogModel.findById(blogId).select({ authorId: 1, _id: 0 })
         if (!authorIdObject) { return res.status(400).send({ msg: "no such blog" }) }
 

@@ -9,17 +9,22 @@ const isValid = function (val) {
     return true;
 }
 
+const regexValidator = function(val){
+    let regx = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+    return regx.test(val);
+}
+
 const bodyValidator = function (data) {
     return Object.keys(data).length > 0
 }
 const createAuthor = async function (req, res) {
     try {
         let data = req.body
-
+        let titleValues = ["Mr","Mrs", "Miss"];
         if (!bodyValidator(data)) return res.status(400).send({ status: false, msg: "please enter body" })
-        if (!isValid(data.fname)) return res.status(400).send({ status: false, msg: "please enter first name" })
-        if (!isValid(data.lname)) return res.status(400).send({ status: false, msg: "please enter last name" })
-        if (!isValid(data.title)) return res.status(400).send({ status: false, msg: "please enter title" })
+        if (!isValid(data.fname) || !regexValidator(data.fname)) return res.status(400).send({ status: false, msg: "please enter first name correctly" })
+        if (!isValid(data.lname) || !regexValidator(data.lname)) return res.status(400).send({ status: false, msg: "please enter last name correctly" })
+        if (!isValid(data.title) || !titleValues.includes(data.title)) return res.status(400).send({ status: false, msg: "please enter title correctly" })
         if (!isValid(data.email)) return res.status(400).send({ status: false, msg: "please enter email" })
         if (!isValid(data.password)) return res.status(400).send({ status: false, msg: "please enter password" })
 
@@ -30,11 +35,11 @@ const createAuthor = async function (req, res) {
 
         let author = await authorModel.create(data)
 
-        res.status(201).send({ status: true, msg: " author created successfully", data: author })
+      return  res.status(201).send({ status: true, msg: " author created successfully", data: author })
 
     }
     catch (err) {
-        res.status(500).send({ errror: err.message })
+      return  res.status(500).send({ errror: err.message })
     }
 }
 
@@ -65,9 +70,9 @@ const loginAuthor = async function (req, res) {
         res.status(201).setHeader("x-api-key", token);
         res.status(201).send({ status: true, token: token });
     } catch (error) {
-        res.status(500).send({ msg: "Error", error: error.message })
+       return res.status(500).send({ msg: "Error", error: error.message })
     }
 };
 
-module.exports = { createAuthor }
+module.exports.createAuthor = createAuthor
 module.exports.loginAuthor = loginAuthor
