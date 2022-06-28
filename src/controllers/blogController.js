@@ -2,6 +2,7 @@
 const blogModel = require("../models/blogModel");
 const authorModel = require("../models/authorModel")
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 const isValid = function(val){
     if(typeof val === "undefined" || val === null) return false
@@ -12,6 +13,9 @@ const isValid = function(val){
 const bodyValidator = function(data){
     return Object.keys(data).length > 0
 }
+const isValidObjectId = function(objectId){
+    return mongoose.Types.ObjectId.isValid(objectId)
+}
 
 let createBlog = async function (req, res) {
     try {
@@ -20,6 +24,7 @@ let createBlog = async function (req, res) {
         if(!isValid(Data.title)) return res.status(400).send({status : false , msg : "please enter title"})
         if(!isValid(Data.body)) return res.status(400).send({status : false , msg : "please enter body"})
         if(!isValid(Data.authorId)) return res.status(400).send({status : false , msg : "please enter authorId"})
+        if(!isValidObjectId(Data.authorId)) return res.status(400).send({status: false, msg:`${authorId} is not valid`})
         if(!isValid(Data.category)) return res.status(400).send({status : false , msg : "please enter category"})
         
         let blog = await blogModel.create(Data)

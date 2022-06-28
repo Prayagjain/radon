@@ -13,6 +13,10 @@ const regexValidator = function(val){
     let regx = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
     return regx.test(val);
 }
+// const regexForPassword = function(pass){
+//     let regx = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8, 20}$/;
+//     return regx.test(pass);
+// }
 
 const bodyValidator = function (data) {
     return Object.keys(data).length > 0
@@ -49,6 +53,7 @@ const loginAuthor = async function (req, res) {
     if (!bodyValidator(data)) return res.status(400).send({ status: false, msg: "please enter body" })
         let userName = req.body.email;
     if(!isValid(userName)){return res.status(400).send({ status: false, msg: "please enter email" })}
+    if (!(validator.isEmail(data.email))) return res.status(400).send({ status: false, msg: "please enter a valid email" })
         let password = req.body.password;
     if(!isValid(data.password)){return res.status(400).send({ status: false, msg: "please enter password" })}
 
@@ -56,7 +61,7 @@ const loginAuthor = async function (req, res) {
         if (!author)
             return res.status(400).send({
                 status: false,
-                msg: "username or the password is not corerct",
+                msg: "username or the password is not correct",
             });
 
         let token = jwt.sign(
