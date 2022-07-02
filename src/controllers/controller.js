@@ -95,8 +95,8 @@ const getInternsInCollege = async function (req, res) {
    
        if (collegeName) {
         obj.name = collegeName
-
-     }else{return res.status(400).send({status : false , message : "please enter College Name"})}
+       }
+     else{return res.status(400).send({status : false , message : "please enter College Name"})}
        
    
        let savedData = await collegeModel.findOne(obj).select({name:1, fullName:1, logoLink:1, _id: 1})
