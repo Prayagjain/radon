@@ -89,7 +89,7 @@ const updatebooks = async function (req, res) {
   if (Object.keys(data).length == 0) { return res.status(400).send({ status: false, message: "please enter the data " }) }
   let { title, excerpt, releasedAt, ISBN } = data
   let getbook = await booksModel.findOne({$or:[{ title: title }, { ISBN: ISBN }]})
-  if (!getbook) { return res.status(400).send({ status: false, message: "title or ISBN already exist" }) }
+  if (getbook) { return res.status(400).send({ status: false, message: "title or ISBN already exist" }) }
 
 
   let updatebook = await booksModel.findOneAndUpdate({ _id: bookId, isDeleted: false }, { title: title, excerpt: excerpt, releasedAt: releasedAt, ISBN: ISBN }, { new: true })
@@ -101,7 +101,7 @@ const updatebooks = async function (req, res) {
 const deleteByParams = async function(req,res){
 
   let data = req.params.bookId
-  if(!data){return res.status(400).send({ status: false, message: "Please enter data in params" })}
+  if(!data){return res.status(400).send({ status: false, message: "Please enter bookId in params" })}
 
   if (!mongoose.isValidObjectId(data)) { return res.status(400).send({ status: false, msg: "please enter  valid bookId" }) }
 

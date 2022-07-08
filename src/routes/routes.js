@@ -9,12 +9,15 @@ const middleware = require('../middleware/commonMiddleware')
 /*------------------------------------------API's:-------------------------------------------*/
 router.post('/register',userController.createUser)
 router.post('/books',middleware.authentication, middleware.authorisation, booksController.createBook)   
-router.post('/books/:bookId/review', reviewController.createReview)         
+       
 router.post('/login', userController.loginUser)
 router.get('/books' , booksController.getbooks)
 router.get('/books/:bookId' , booksController.getbookByparams)
 router.put('/books/:bookId' ,middleware.authentication, middleware.authorisation2, booksController.updatebooks)
 router.delete('/books/:bookId',middleware.authentication,  middleware.authorisation2, booksController.deleteByParams)
+router.post('/books/:bookId/review', reviewController.createReview)  
+router.put('/books/:bookId/review/:reviewId', reviewController.updatereview)
+router.delete('/books/:bookId/review/:reviewId' , reviewController.deletereview)
 
 
 
