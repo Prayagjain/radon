@@ -45,13 +45,10 @@ const bookSchema = new mongoose.Schema({
         default: false
     },
     releasedAt: {
-      type:Date ,
-        required: true,
-        format: moment().format('MMMM Do YYYY ')
+      type:Date,
+      default:moment(new Date()).format('YYYY-MM-DD')
     }
-
-
-
+    
 }, { timestamps: true });
 
 
