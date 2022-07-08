@@ -56,7 +56,7 @@ let token = jwt.sign(
         organisation: "project-3",
     },
     "ourThirdProject" , {
-        expiresIn:'60s'
+        expiresIn:'600s'
     }
 );
 res.status(201).setHeader("x-api-key", token);
