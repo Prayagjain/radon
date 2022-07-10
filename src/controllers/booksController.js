@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const booksModel = require('../models/booksModel')
 const userModel = require('../models/userModel')
+const reviewModel = require('../models/reviewModel')
 const { isValid, validISBN } = require('../validator/validation')
 
 
@@ -72,9 +73,9 @@ const getbookByparams = async function (req, res) {
   let data = req.params.bookId
   if (!data) { return res.status(404).send({ status: false, message: "please enter bookId" }) }
   if (!mongoose.isValidObjectId(data)) { return res.status(400).send({ status: false, msg: "please enter  valid bookId" }) }
-  let getbook = await booksModel.findOne({ id: data }, { "_v": 0 }).lean()
+  let getbook = await booksModel.findOne({ id: data }, { __v: 0 ,deletedAt:0}).lean()
   if (!getbook) { return res.status(404).send({ status: false, message: "No such book is available " }) }
-  let bookReview = await reviewModel.find({ bookId: data })
+  let bookReview = await reviewModel.find({ bookId: data },{isDeleted: 0,createdAt: 0,updatedAt: 0,__v: 0})
 
   getbook.reviewsData = bookReview
 

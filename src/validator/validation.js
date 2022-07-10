@@ -38,7 +38,11 @@ const passwordvalidate = function(value){
  let regex =    /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,15})$/
  return regex.test(value)
 }
+const ratingValidator = function(value){
+  let regex = /^([0-4]*\.[0-9]+|[0-5])$/
+  return regex.test(value)
+}
 
 
-         module.exports={validateEmail,isValid,validISBN , regexNumber , regexValidator,passwordvalidate}
+         module.exports={validateEmail,isValid,validISBN , regexNumber , regexValidator,passwordvalidate, ratingValidator}
           
