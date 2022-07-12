@@ -10,12 +10,10 @@ const authentication = async function (req, res, next) {
     try {
         let token = req.headers["x-api-key" || "X-Api-Key"]
         if (!token) {
-            return res.status(401).send({ message: "no token found" })
+            return res.status(401).send({status:false, message: "no token found" })
         }
         let decodeToken = jwt.verify(token, "ourThirdProject")
-        if (!decodeToken) {
-            return res.status(401).send({ message: "Invalid token" })
-        }
+       
         req.abcd = decodeToken
         next();
     }
@@ -31,7 +29,7 @@ let data = req.body.userId
 let decodeToken = req.abcd
 let userid = decodeToken.userId
 
-if (!mongoose.isValidObjectId(data)) { return res.status(400).send({ status: false, message: "please enter  valid userId" }) }
+if (!mongoose.isValidObjectId(data)) { return res.status(400).send({ status: false, message: "please enter valid userId" }) }
 if(userid!=data) return res.status(403).send({ message: "you are not authorised " })
 next()
 }
@@ -44,7 +42,7 @@ const authorisation2 = async function(req,res,next){
     let decodeToken = req.abcd
     let userId = decodeToken.userId
     let finduser = await booksModel.findById(param)
-    if(!finduser){return res.status(400).send({ message: "No such book available"})}
+    if(!finduser){return res.status(404).send({ message: "No such book available"})}
     let userId1 = finduser.userId
 
 if(userId != userId1){  return res.status(403).send({ message: "you are not authorised"})}

@@ -48,9 +48,15 @@ const passwordValidate = function(value){
 //--------------------------------------validation for rating allowing number from 0 to 5-------------------------------------//
 
 const ratingValidator = function(value){
-  let regex = /^([0-4]*\.[0-9]+|[0-5])$/
+  let regex = /^([1-5])$/
   return regex.test(value)
 }
 
-module.exports={validateEmail,isValid,validISBN , regexNumber , regexValidator,passwordValidate, ratingValidator}
+
+const dateValidator = function(value){
+  let regex = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
+  return regex.test(value)
+}
+
+module.exports={validateEmail,isValid,validISBN , regexNumber , regexValidator,passwordValidate, ratingValidator, dateValidator}
           
