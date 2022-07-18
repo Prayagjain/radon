@@ -7,8 +7,11 @@ const { isValid, validISBN, dateValidator } = require('../validator/validation')
 //------------------------------------------------createBook----------------------------------------------//
 const createBook = async function (req, res) {
 
- try {let data = req.body
+ try {
+      let data = req.body
+      let uploadedFileURL = req.xyz
   let { title, excerpt, ISBN, category, subcategory, userId, releasedAt } = data
+  data.bookCover = uploadedFileURL
 
   if (Object.keys(data).length == 0) { return res.status(400).send({ status: false, message: "please enter the data" }) }
   if (!isValid(title)) { return res.status(400).send({ status: false, message: "please enter the title" }) }
@@ -42,8 +45,8 @@ const createBook = async function (req, res) {
 
 const getBooks = async function (req, res) {
 try {
-    let data = req.query
-    let { userId, category, subcategory } = data
+     let data = req.query
+     let { userId, category, subcategory } = data
 
   let obj = { 
     isDeleted: false 

@@ -7,19 +7,22 @@ const {validateEmail,isValid , regexNumber , regexValidator, passwordValidate} =
 const createUser = async function(req,res){
   try{
      let data =req.body
-     let { title, name, phone,email,password} = data
+     let { title, name, phone,email,password,address} = data
      let titleValues = ["Mr","Mrs", "Miss"];
 if(Object.keys(data).length==0) {return res.status(400).send({status: false, message: "please enter the data"})}
 if(!isValid(phone)){return res.status(400).send({status:false, message:" please enter phone number"})}
 if(!regexNumber(phone)){return res.status(400).send({status:false, message:" please enter valid phone number"})}
 if(!isValid(title)){ return res.status(400).send({status:false, message:"please enter title"})}
 if(!titleValues.includes(title)){ return res.status(400).send({status:false, message:"please enter title correctly"})}
-if(!isValid(name)){ return res.status(400).send({status:false, message:"please enter name"}) }
-if(!regexValidator(name)){ return res.status(400).send({status:false, message:"please enter name correctly"}) }
-if(!isValid(email)){return res.status(400).send({status:false, message:"please enter email"}) }
-if(!validateEmail(email)){return res.status(400).send({status:false, message:"please enter valid email"}) }
-if(!isValid(password)) {return res.status(400).send({status:false, message:"please enter password"}) }
-if(!passwordValidate(password)) {return res.status(400).send({status:false, message:"please enter valid password"}) }
+if(!isValid(name)){ return res.status(400).send({status:false, message:"please enter name"})}
+if(!regexValidator(name)){ return res.status(400).send({status:false, message:"please enter name correctly"})}
+if(!isValid(email)){return res.status(400).send({status:false, message:"please enter email"})}
+if(!validateEmail(email)){return res.status(400).send({status:false, message:"please enter valid email"})}
+if(!isValid(password)) {return res.status(400).send({status:false, message:"please enter password"})}
+if(!passwordValidate(password)) {return res.status(400).send({status:false, message:"please enter valid password"})}
+if(data.hasOwnProperty('address')){
+    if(typeof address != "object"){return res.status(400).send({status:false, message:"Type of address is not an object"})}
+}
 
 let checkEmail = await userModel.findOne({email:email})
 if(checkEmail){return res.status(400).send({status:false, message:"email is already regesterd"})}

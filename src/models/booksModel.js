@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment')
 const ObjectId = mongoose.Schema.Types.ObjectId
 /*------------------------------------------Book Schema:-------------------------------------------*/
 const bookSchema = new mongoose.Schema({
@@ -49,8 +48,11 @@ const bookSchema = new mongoose.Schema({
     releasedAt: {
       type:Date,
       required:true
+    },
+    bookCover:{
+        type:String,
+        trim:true
     }
-    
 }, { timestamps: true });
 
 

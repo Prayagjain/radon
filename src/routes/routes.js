@@ -4,6 +4,7 @@ const router = express.Router()
 const userController = require('../controllers/userController')
 const booksController = require('../controllers/booksController')
 const reviewController = require('../controllers/reviewController')
+const awsController = require('../controllers/awsController')
 const middleware = require('../middleware/commonMiddleware')
 
 /*------------------------------------------API's for userController-------------------------------------------*/
@@ -12,7 +13,7 @@ router.post('/login', userController.loginUser)
 
 //------------------------------------------Api's for bookController----------------------------------------------//
 
-router.post('/books',middleware.authentication, middleware.authorisation, booksController.createBook)   
+router.post('/books',middleware.authentication, middleware.authorisation,awsController.awsFile, booksController.createBook)
 router.get('/books' ,middleware.authentication, booksController.getBooks)
 router.get('/books/:bookId' ,middleware.authentication, booksController.getBookByParams)
 router.put('/books/:bookId' ,middleware.authentication, middleware.authorisation2, booksController.updateBooks)
