@@ -23,7 +23,7 @@ const shortUrl=async function(req,res){
     if(alreadyUrl) return  res.status(400).send({status:false,message:"Url already exist"});
 
      let short=shortId.generate(longUrl)
-     data.shortUrl="http://localhost:3000/"+`${short}`
+     data.shortUrl=`http://localhost:3000/${short}`
       data.urlCode=short
 
    let savedata=await urlModel.create(data) 
