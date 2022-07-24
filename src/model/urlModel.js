@@ -13,7 +13,6 @@ const urlSchema=mongoose.Schema({
     {
         type:String,
         required:true ,
-        lowercase:true,
          trim:true 
         
     }, 
@@ -22,7 +21,6 @@ const urlSchema=mongoose.Schema({
     {
         type:String,
         required:true ,
-        lowercase:true,
          trim:true 
     } 
 

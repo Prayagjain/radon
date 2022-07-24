@@ -51,7 +51,6 @@ const shortUrl=async function(req,res){
             return  res.status(201).send({status:true,data:JSON.parse(cahcedUrlData)})
     }else{
     let alreadyUrl= await urlModel.findOne({longUrl:longUrl},{updatedAt:0,createdAt:0,__v:0,_id:0})
-    await SET_ASYNC(`${longUrl}`,(JSON.stringify(alreadyUrl)))
     if(alreadyUrl) return  res.status(201).send({status:true, data:alreadyUrl});
 
      let short=shortId.generate()
